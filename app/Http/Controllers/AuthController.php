@@ -59,10 +59,13 @@ class AuthController extends Controller
     {
         $request->validate([
             'nama_lengkap' => 'required|max:25',
-            'username' => 'required|max:25|unique:masyarakat,username',
+            'username' => 'required|digits:16|unique:masyarakat,username',
             'password' => 'required|min:6',
             'telp' => 'required|max:15',
             'alamat' => 'required'
+        ], [
+            'username.unique' => 'Username sudah digunakan!',
+            'password.min' => 'Password minimal 6 karakter!',
         ]);
         $masyarakat = Masyarakat::create([
             'nama_lengkap' => $request->nama_lengkap,
@@ -71,8 +74,10 @@ class AuthController extends Controller
             'telp' => $request->telp,
             'alamat' => $request->alamat,
         ]);
+        if (!$masyarakat) {
+            return redirect()->back()->with('error', 'Akun gagal dibuat! Coba lagi nanti.');
+        }
         Auth::guard('masyarakat')->login($masyarakat);
         return redirect('/masyarakat/dashboard')->with('success', 'Akun berhasil dibuat dan Anda telah login!');
     }
-
 }

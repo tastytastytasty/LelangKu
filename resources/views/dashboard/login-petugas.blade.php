@@ -61,19 +61,7 @@
                                         <div class="mb-2">
                                             <label class="form-label">Password</label>
                                             <input class="form-control form-control-lg" type="password" minlength="6" name="password"
-                                                placeholder="Masukkan password Anda" />
-                                            <!-- <div class="d-flex justify-content-between mt-3 gap-2">
-                                                <span>
-                                                    <a href="" class="text-primary">Lupa Password?</a>
-                                                </span>
-                                                <label class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="remember-me"
-                                                        name="remember-me" checked>
-                                                    <span class="form-check-label">
-                                                        Ingatkan password
-                                                    </span>
-                                                </label>
-                                            </div> -->
+                                                placeholder="Masukkan password Anda (Min : 6 Digit)" />
                                         </div>
                                         <div class="text-center mt-5">
                                             <button type="submit" class="btn btn-lg btn-primary"

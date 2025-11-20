@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\LelangController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LaporanController;
 
 Route::middleware('guest.only')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister']);
@@ -74,4 +76,12 @@ Route::middleware('auth.only')->group(function () {
     Route::get('/history/cari', [HistoryController::class, 'cari'])->name('history.cari');
     Route::get('/history/status', [HistoryController::class, 'status'])->name('history.status');
     Route::get('/history/{id}', [HistoryController::class, 'detail'])->name('history.detail');
+
+    Route::get('/profile', [UserController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/masyarakat', [UserController::class, 'updateMas'])->name('profile.updmas');
+    Route::post('/profile/petugas', [UserController::class, 'updatePet'])->name('profile.updpet');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
+    Route::get('/laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
 });

@@ -83,8 +83,8 @@
                         <li class="sidebar-header">
                             Laporan
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+                        <li class="sidebar-item {{ request()->is('laporan') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('laporan') }}">
                                 <i class="align-middle" data-feather="clipboard"></i> <span
                                     class="align-middle">Laporan</span>
                             </a>
@@ -122,8 +122,8 @@
                         <li class="sidebar-header">
                             Laporan
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="#">
+                        <li class="sidebar-item {{ request()->is('laporan') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('laporan') }}">
                                 <i class="align-middle" data-feather="clipboard"></i> <span
                                     class="align-middle">Laporan</span>
                             </a>
@@ -149,8 +149,13 @@
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
                                 data-bs-toggle="dropdown">
-                                <img src="{{asset('assets/img/avatars/avatar.jpg')}}"
-                                    class="avatar img-fluid rounded-circle mx-2" alt="Charles Hall" />
+                                @if (auth()->guard('masyarakat')->user())
+                                    <img src="{{asset('storage/' . auth()->guard('masyarakat')->user()->gambar)}}"
+                                        class="avatar img-fluid rounded-circle mx-2" alt="User" />
+                                @else
+                                    <img src="{{asset('storage/' . auth()->guard('petugas')->user()->gambar)}}"
+                                        class="avatar img-fluid rounded-circle mx-2" alt="User" />
+                                @endif
                                 <span class="text-dark">
                                     @if (auth()->guard('masyarakat')->check())
                                         {{ auth()->guard('masyarakat')->user()->nama_lengkap }}
@@ -160,7 +165,7 @@
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
+                                <a class="dropdown-item" href="{{route('profile.edit')}}"><i class="align-middle me-1"
                                         data-feather="user"></i> Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <form action="{{ route('logout') }}" method="POST">

@@ -35,7 +35,7 @@ class MasyarakatController extends Controller
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar')->store('img', 'public');
         } else {
-            $gambar = '-----';
+            $gambar = 'img/no.jpg';
         }
         $status = $request->status;
         Masyarakat::create([
@@ -60,7 +60,6 @@ class MasyarakatController extends Controller
     }
     public function update(Request $request, $id)
     {
-        
         if (Masyarakat::where('username', $request->username)->where('id_user', '!=', $id)->exists()) {
             return redirect()->route('masyarakat')->with('error', 'NIK sudah dipakai!');
         }
@@ -96,7 +95,7 @@ class MasyarakatController extends Controller
     public function destroy(string $id)
     {
         $masyarakat = Masyarakat::findOrFail($id);
-        if ($masyarakat->gambar) {
+        if ($masyarakat->gambar && $masyarakat->gambar != 'img/no.jpg') {
             Storage::disk('public')->delete($masyarakat->gambar);
         }
         $masyarakat->delete();

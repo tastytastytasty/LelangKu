@@ -37,6 +37,30 @@
 								</button>
 							</div>
 						@endif
+						@if (session('error'))
+							<div id="alertBox" class="alert alert-danger text-danger"
+								style="padding:10px; margin-bottom:10px; background:#f8d7da; position:relative;">
+								{{ session('error') }}
+								<button id="closeAlert" class="text-danger"
+									style="position:absolute; top:5px; right:10px; background:none; border:none; font-size:20px; line-height:20px; cursor:pointer;">
+									&times;
+								</button>
+							</div>
+						@endif
+						@if ($errors->any())
+							<div id="alertBox" class="alert alert-danger text-danger"
+								style="padding:10px; margin-bottom:10px; background:#f8d7da; position:relative;">
+								<ul class="m-0 ps-3">
+									@foreach ($errors->all() as $err)
+										<li>{{ $err }}</li>
+									@endforeach
+								</ul>
+								<button id="closeAlert" class="text-danger"
+									style="position:absolute; top:5px; right:10px; background:none; border:none; font-size:20px; line-height:20px; cursor:pointer;">
+									&times;
+								</button>
+							</div>
+						@endif
 						<div class="text-center mt-4">
 							<h1 class="h2">Ayo Mulai</h1>
 							<p class="lead">
@@ -49,51 +73,54 @@
 								<div class="m-sm-4">
 									<div class="text-center">
 										<img src="{{asset('assets/img/icons/log.png')}}" alt="LelangKu"
-											class="img-fluid" width="200"/>
+											class="img-fluid" width="200" />
 									</div>
 									<form action="{{ route('register') }}" method="post">
 										@csrf
 										<div class="mb-3 mt-3">
 											<label class="form-label">Nama Lengkap</label>
 											<input class="form-control form-control-lg" type="text" name="nama_lengkap"
-												placeholder="Masukkan Nama Anda" />
+												placeholder="Masukkan Nama Anda" required />
 										</div>
 										<div class="mb-3">
 											<label class="form-label">NIK</label>
-											<input class="form-control form-control-lg" type="text" minlength="16" maxlength="16" name="username"
-												placeholder="Masukkan NIK Anda" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+											<input class="form-control form-control-lg" type="text" name="username"
+												placeholder="Masukkan NIK Anda (16 Digit)" minlength="16" maxlength="16"
+												inputmode="numeric" pattern="\d{16}"
+												oninput="this.value = this.value.replace(/\D/g,'')" required />
+
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
-											<input class="form-control form-control-lg" type="password" minlength="6" name="password"
-												placeholder="Masukkan password Anda" />
+											<input class="form-control form-control-lg" type="password" minlength="6"
+												name="password" placeholder="Masukkan password Anda (Min : 6 Digit)" required />
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Nomor Telpon</label>
 											<input class="form-control form-control-lg" type="text" name="telp"
-												placeholder="Masukkan no.telp Anda" />
+												placeholder="Masukkan no.telp Anda" required />
 										</div>
-											<label class="form-label">Alamat</label>
-											<input class="form-control form-control-lg" type="text" name="alamat"
-												placeholder="Masukkan alamat Anda" />
-										</div>
-										<div class="text-center mt-4">
-											<button type="submit" class="btn btn-lg btn-primary"
-												style="padding-left:200px; padding-right:200px;">Register</button>
-										</div>
-										<div class="text-center mt-3">
-											<span>Sudah punya akun?
-												<a href="/login" class="text-primary">Log in.</a>
-											</span>
-										</div>
-									</form>
+										<label class="form-label">Alamat</label>
+										<input class="form-control form-control-lg" type="text" name="alamat"
+											placeholder="Masukkan alamat Anda" required />
 								</div>
+								<div class="text-center mt-4">
+									<button type="submit" class="btn btn-lg btn-primary"
+										style="padding-left:200px; padding-right:200px;">Register</button>
+								</div>
+								<div class="text-center mt-3">
+									<span>Sudah punya akun?
+										<a href="/login" class="text-primary">Log in.</a>
+									</span>
+								</div>
+								</form>
 							</div>
 						</div>
-
 					</div>
+
 				</div>
 			</div>
+		</div>
 		</div>
 	</main>
 
@@ -101,16 +128,16 @@
 
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var closeBtn = document.getElementById("closeAlert");
-        var alertBox = document.getElementById("alertBox");
+	document.addEventListener("DOMContentLoaded", function () {
+		var closeBtn = document.getElementById("closeAlert");
+		var alertBox = document.getElementById("alertBox");
 
-        if (closeBtn) {
-            closeBtn.addEventListener("click", function () {
-                alertBox.style.display = "none";
-            });
-        }
-    });
+		if (closeBtn) {
+			closeBtn.addEventListener("click", function () {
+				alertBox.style.display = "none";
+			});
+		}
+	});
 </script>
 
 </html>

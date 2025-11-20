@@ -32,7 +32,7 @@ class PetugasController extends Controller
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar')->store('img', 'public');
         } else {
-            $gambar = '-----';
+            $gambar = 'img/no.jpg';
         }
         Petugas::create([
             'nama_petugas' => $nama,
@@ -85,7 +85,7 @@ class PetugasController extends Controller
     public function destroy(string $id)
     {
         $petugas = Petugas::findOrFail($id);
-        if ($petugas->gambar) {
+        if ($petugas->gambar && $petugas->gambar != 'img/no.jpg') {
             Storage::disk('public')->delete($petugas->gambar);
         }
         $petugas->delete();

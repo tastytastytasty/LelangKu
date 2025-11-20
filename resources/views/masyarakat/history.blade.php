@@ -15,7 +15,7 @@
                             <select class="form-control" name="filter">
                                 <option value="">Semua Status</option>
                                 <option value="menang">Menang</option>
-                                <option value="proses">Proses Lelang</option>  
+                                <option value="proses">Proses Lelang</option>
                                 <option value="kalah">Kalah</option>
                             </select>
                             <button type="submit" class="btn btn-success ms-2"><i class="align-middle"
@@ -73,7 +73,7 @@
                                     @endif
                                 </td>
                                 <!-- <td class="d-none d-md-table-cell">Rp.
-                                                                                                                    {{ number_format($histori->penawaran_harga, 0, ',', '.') }}</td> -->
+                                                                                                                            {{ number_format($histori->penawaran_harga, 0, ',', '.') }}</td> -->
                                 <td class="d-none d-md-table-cell">
                                     <a href="{{ route('history.detail', $histori->id_history) }}" class="btn btn-success"><i
                                             class="align-middle" data-feather="file-text"></i>Detail</a>

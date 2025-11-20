@@ -26,7 +26,11 @@ class BarangController extends Controller
         $tanggal = Carbon::now()->toDateString();
         $harga_awal = $request->harga_awal;
         $deskripsi = $request->deskripsi;
-        $gambar = $request->file('gambar')->store('img', 'public');
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar')->store('img', 'public');
+        } else {
+            $gambar = 'img/box.jpg';
+        }
         Barang::create([
             'nama_barang' => $nama,
             'tgl' => $tanggal,
@@ -73,7 +77,7 @@ class BarangController extends Controller
     public function destroy(string $id)
     {
         $barang = Barang::findOrFail($id);
-        if ($barang->gambar) {
+        if ($barang->gambar && $barang->gambar != 'img/box.jpg') {
             Storage::disk('public')->delete($barang->gambar);
         }
         $barang->delete();

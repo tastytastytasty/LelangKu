@@ -45,7 +45,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Password</label>
-                                <input type="text" class="form-control" name="password" minlength="6" placeholder="{{ isset($petugas) ? 'Kosongkan jika tidak diubah' : '' }}">
+                                <input type="text" class="form-control" name="password" minlength="6"
+                                placeholder="{{ isset($petugas) ? 'Reset password?' : '(Min : 6 Digit)' }}">
                             </div>
                         </div>
                         <div class="mb-3">
