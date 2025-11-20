@@ -34,7 +34,7 @@
                                     </tr>
                                     <tr>
                                         <td>Tanggal lelang</td>
-                                        <td>{{ $lelangi->tgl_lelang }}</td>
+                                        <td class="text-end">{{ $lelangi->tgl_lelang }}</td>
                                     </tr>
                                 </tbody>
                             </table>

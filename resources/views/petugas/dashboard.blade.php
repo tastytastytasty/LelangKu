@@ -6,49 +6,54 @@
         <h1 class="mb-3 text-primary"><strong>Lelang</strong> yang akan datang</h1>
     </div>
     <div class="row mt-2">
-        @foreach ($lelangis as $lelangi)
-            <div class="col-12 col-md-6 col-xxl-3 d-flex mb-3">
-                <div class="card w-100">
-                    <div class="card-body d-flex">
-                        <div class="align-self-center h-100 w-100">
-                            <div class="mb-2 d-flex align-items-center">
-                                @if($lelangi->barang->gambar)
-                                    <img src="{{ asset('storage/' . $lelangi->barang->gambar) }}"
-                                        style="width: 100%; height: 200px; object-fit: cover; object-position: center;">
-                                @else
-                                    <span>Gambar tidak tersedia</span>
-                                @endif
+        @if (!empty($lelangis))
+            @foreach ($lelangis as $lelangi)
+                <div class="col-12 col-md-6 col-xxl-3 d-flex mb-3">
+                    <div class="card w-100">
+                        <div class="card-body d-flex">
+                            <div class="align-self-center h-100 w-100">
+                                <div class="mb-2 d-flex align-items-center">
+                                    @if($lelangi->barang->gambar)
+                                        <img src="{{ asset('storage/' . $lelangi->barang->gambar) }}"
+                                            style="width: 100%; height: 200px; object-fit: cover; object-position: center;">
+                                    @else
+                                        <span>Gambar tidak tersedia</span>
+                                    @endif
+                                </div>
+                                <table class="table mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <h4><strong>{{$lelangi->barang->nama_barang}}</strong></h4>
+                                            </td>
+                                            <td class="text-end"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Harga Pembuka</td>
+                                            <td class="text-end text-danger"><strong>Rp.
+                                                    {{ number_format($lelangi->harga_awal, 0, ',', '.') }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tanggal lelang</td>
+                                            <td class="text-end">{{ $lelangi->tgl_lelang }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table class="table mb-0">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h4><strong>{{$lelangi->barang->nama_barang}}</strong></h4>
-                                        </td>
-                                        <td class="text-end"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Harga Pembuka</td>
-                                        <td class="text-end text-danger"><strong>Rp.
-                                                {{ number_format($lelangi->harga_awal, 0, ',', '.') }}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal lelang</td>
-                                        <td>{{ $lelangi->tgl_lelang }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @else
+            <h3 class="text-center mt-4 mb-4">Tidak ada</h3>
+        @endif
     </div>
     <hr class="text-primary">
     @if (auth()->guard('petugas')->user()->id_level == '2')
         <div class=" d-flex justify-content-between mx-2">
             <h1 class="mb-3 text-primary"><strong>Lelang</strong> terkini</h1>
-            <a href="/lelang" class="btn btn-none text-primary">Selengkapnya<i class="align-middle mx-2" data-feather="arrow-right"></i></a>
+            <a href="/lelang" class="btn btn-none text-primary">Selengkapnya<i class="align-middle mx-2"
+                    data-feather="arrow-right"></i></a>
         </div>
         <div class="row mt-2">
             @foreach ($lelangs as $lelang)

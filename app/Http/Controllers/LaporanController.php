@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\History;
 use App\Models\Petugas;
+use App\Models\Lelang;
 
 class LaporanController extends Controller
 {
@@ -14,24 +14,17 @@ class LaporanController extends Controller
         $petugasList = Petugas::where('id_level', 2)->get();
         if ($user->id_level == '2') {
 
-            $laporans = History::with(['lelang', 'masyarakat', 'barang'])
-                ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user')
-                ->whereHas('lelang', function ($query) use ($user) {
-                    $query->where('id_petugas', $user->id_petugas);
-                })
-                ->groupBy('id_lelang', 'id_barang', 'id_user')
+            $laporans = Lelang::with(['history', 'masyarakat', 'barang','petugas'])
+                ->where('id_petugas',$user->id_petugas)
                 ->get();
-
         } else {
-            $laporans = History::with(['lelang', 'masyarakat', 'barang'])
-                ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user')
-                ->groupBy('id_lelang', 'id_barang', 'id_user')
+            $laporans = Lelang::with(['history', 'masyarakat', 'barang','petugas'])
                 ->get();
         }
         $grandTotal = $laporans
-            ->where('lelang.status', 'ditutup')
-            ->whereNotNull('lelang.id_user')
-            ->sum('lelang.harga_akhir');
+            ->where('status', 'ditutup')
+            ->whereNotNull('id_user')
+            ->sum('harga_akhir');
         return view('petugas.laporan.laporan', [
             'laporans' => $laporans,
             'petugasList' => $petugasList,
@@ -47,31 +40,22 @@ class LaporanController extends Controller
         $tgl_awal = $request->tgl_awal;
         $tgl_akhir = $request->tgl_akhir;
         $petugasList = Petugas::where('id_level', 2)->get();
-        $query = History::with(['lelang', 'masyarakat', 'barang'])
-            ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user');
+        $query = $laporans = Lelang::with(['history', 'masyarakat', 'barang','petugas']);
         if ($user->id_level == 2) {
-            $query->whereHas(
-                'lelang',
-                fn($q) =>
-                $q->where('id_petugas', $user->id_petugas)
-            );
+            $query->where('id_petugas', $user->id_petugas);
         }
         if ($selectedPetugas && $user->id_level != 2) {
-            $query->whereHas('lelang', function ($q) use ($selectedPetugas) {
-                $q->where('id_petugas', $selectedPetugas);
-            });
+            $query->where('id_petugas', $selectedPetugas);
         }
 
         if ($tgl_awal && $tgl_akhir) {
-            $query->whereHas('lelang', function ($q) use ($tgl_awal, $tgl_akhir) {
-                $q->whereBetween('tgl_lelang', [$tgl_awal, $tgl_akhir]);
-            });
+            $query->whereBetween('tgl_lelang', [$tgl_awal, $tgl_akhir]);
         }
-        $laporans = $query->groupBy('id_lelang', 'id_barang', 'id_user')->get();
+        $laporans = $query->get();
         $grandTotal = $laporans
-            ->where('lelang.status', 'ditutup')
-            ->whereNotNull('lelang.id_user')
-            ->sum('lelang.harga_akhir');
+            ->where('status', 'ditutup')
+            ->whereNotNull('id_user')
+            ->sum('harga_akhir');
         return view('petugas.laporan.laporan', [
             'laporans' => $laporans,
             'petugasList' => $petugasList,
@@ -89,31 +73,22 @@ class LaporanController extends Controller
         } else {
             $selectedPetugas = $request->petugas ?? null;
         }
-        $query = History::with(['lelang', 'barang', 'masyarakat'])
-            ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user')
-            ->groupBy('id_lelang', 'id_barang', 'id_user');
+        $query = Lelang::with(['history', 'masyarakat', 'barang','petugas']);
         if (!empty($selectedPetugas)) {
-            $query->whereHas('lelang', function ($q) use ($selectedPetugas) {
-                $q->where('id_petugas', $selectedPetugas);
-            });
+            $query->where('id_petugas', $selectedPetugas);
         }
         if ($request->filled('tgl_awal') && $request->filled('tgl_akhir')) {
             $tglAwal = $request->tgl_awal;
             $tglAkhir = $request->tgl_akhir;
 
-            $query->whereHas('lelang', function ($q) use ($tglAwal, $tglAkhir) {
-                $q->whereBetween('tgl_lelang', [$tglAwal, $tglAkhir]);
-            });
+            $query->whereBetween('tgl_lelang', [$tglAwal, $tglAkhir]);
         }
         $laporans = $query->get();
-
         $jumlahLelang = $laporans->unique('id_lelang')->count();
-
         $grandTotal = $laporans
-            ->where('lelang.status', 'ditutup')
-            ->whereNotNull('lelang.id_user')
-            ->sum('lelang.harga_akhir');
-
+            ->where('status', 'ditutup')
+            ->whereNotNull('id_user')
+            ->sum('harga_akhir');
         return view('petugas.laporan.cetak', compact(
             'laporans',
             'grandTotal',

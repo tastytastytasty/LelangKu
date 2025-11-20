@@ -53,6 +53,14 @@
                                     Lelang</span>
                             </a>
                         </li>
+                        <li class="sidebar-header">
+                            Transaksi
+                        </li>
+                        <li class="sidebar-item ">
+                            <a class="sidebar-link" href="#">
+                                <i class="align-middle" data-feather="info"></i> <span class="align-middle">Tentang</span>
+                            </a>
+                        </li>
                     @elseif (auth()->guard('petugas')->check() && auth()->guard('petugas')->user()->id_level == 1)
                         <li class="sidebar-item {{ request()->is('petugas/dashboard') ? 'active' : '' }}">
                             <a class="sidebar-link" href="/petugas/dashboard">

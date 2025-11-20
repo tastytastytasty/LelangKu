@@ -140,7 +140,6 @@
                 <th class="d-none d-xl-table-cell">Nama Petugas</th>
                 <th class="d-none d-xl-table-cell">Tanggal lelang</th>
                 <th class="d-none d-xl-table-cell">Nama Barang</th>
-                <th class="d-none d-xl-table-cell">Gambar</th>
                 <th class="d-none d-xl-table-cell">Harga barang</th>
                 <th class="d-none d-xl-table-cell">Nama Bid</th>
                 <th class="d-none d-xl-table-cell">Harga bid</th>
@@ -151,34 +150,33 @@
             @foreach ($laporans as $laporan)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td class="d-none d-xl-table-cell">{{ $laporan->lelang->petugas->nama_petugas }}</td>
-                    <td class="d-none d-xl-table-cell">{{ $laporan->lelang->tgl_lelang }}</td>
+                    <td class="d-none d-xl-table-cell">{{ $laporan->petugas->nama_petugas }}</td>
+                    <td class="d-none d-xl-table-cell">{{ $laporan->tgl_lelang }}</td>
                     <td class="d-none d-xl-table-cell">{{ $laporan->barang->nama_barang }}</td>
-                    <td class="d-none d-xl-table-cell">
-                        @if($laporan->barang->gambar)
-                            <img src="{{ asset('storage/' . $laporan->barang->gambar) }}" width="100" class="mx-auto">
-                        @else
-                            <span>Tidak ada gambar</span>
-                        @endif
-                    </td>
                     <td class="d-none d-xl-table-cell">Rp.
-                        {{number_format($laporan->lelang->harga_awal, 0, ',', '.')}}
+                        {{number_format($laporan->harga_awal, 0, ',', '.')}}
                     </td>
-                    @if ($laporan->lelang->status == 'dibuka')
-                        <td></td>
-                        <td></td>
-                        <td class="d-none d-xl-table-cell">{{ $laporan->lelang->status }}</td>
+                    @if ($laporan->status == 'dibuka')
+                        @if ($laporan->id_user == null)
+                            <td></td>
+                            <td></td>
+                            <td class="d-none d-xl-table-cell">Dibuka</td>
+                        @else
+                            <td></td>
+                            <td></td>
+                            <td class="d-none d-xl-table-cell">Proses Lelang</td>
+                        @endif
                     @else
                         @if ($laporan->id_user != null)
                             <td class="d-none d-xl-table-cell">{{ $laporan->masyarakat->nama_lengkap }}</td>
                             <td class="d-none d-xl-table-cell">Rp.
-                                {{number_format($laporan->lelang->harga_akhir, 0, ',', '.')}}
+                                {{number_format($laporan->harga_akhir, 0, ',', '.')}}
                             </td>
-                            <td class="d-none d-xl-table-cell">selesai</td>
+                            <td class="d-none d-xl-table-cell">Selesai</td>
                         @else
                             <td></td>
                             <td></td>
-                            <td class="d-none d-xl-table-cell">{{ $laporan->lelang->status }}</td>
+                            <td class="d-none d-xl-table-cell">Ditutup</td>
                         @endif
                     @endif
                 </tr>

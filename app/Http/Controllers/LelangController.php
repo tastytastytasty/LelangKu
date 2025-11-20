@@ -118,6 +118,7 @@ class LelangController extends Controller
     {
         $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])
             ->where('status', 'dibuka')
+            ->where('tgl_lelang', '<=', Carbon::today())
             ->orderBy('created_at', 'DESC')
             ->limit(4)
             ->get();
@@ -131,7 +132,10 @@ class LelangController extends Controller
     public function board()
     {
         $id = auth()->guard('petugas')->user()->id_petugas;
-        $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])->where('id_petugas', $id)->orderBy('created_at', 'DESC')
+        $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])
+        ->where('id_petugas', $id)
+        ->where('tgl_lelang', '<=', Carbon::today())
+        ->orderBy('created_at', 'DESC')
             ->limit(4)
             ->get();
         $id = auth()->guard('petugas')->user()->id_petugas;

@@ -22,4 +22,8 @@ class Lelang extends Model
     {
         return $this->belongsTo(Petugas::class, 'id_petugas','id_petugas');
     }
+    public function history()
+    {
+        return $this->hasMany(History::class, 'id_lelang', 'id_lelang');
+    }
 }
