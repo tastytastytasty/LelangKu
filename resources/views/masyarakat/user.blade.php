@@ -10,19 +10,19 @@
                 @if (auth()->guard('masyarakat')->user())
                     <div class="card-body text-center">
                         <img src="{{asset('storage/' . auth()->guard('masyarakat')->user()->gambar)}}" alt="orang"
-                            class="img-fluid rounded-circle mb-2" width="128" height="128" />
-                        <h5 class="card-title mb-0">{{auth()->guard('masyarakat')->user()->nama_lengkap}}</h5>
-                        <div class="text-muted mb-2">Pengguna</div>
+                            class="img-fluid rounded-circle mb-4" width="128" height="128" />
+                        <h5 class="card-title mb-2">{{auth()->guard('masyarakat')->user()->nama_lengkap}}</h5>
+                        <div class="text-muted mb-2 mt-2"><strong>Pengguna</strong></div>
                     </div>
                 @else
                     <div class="card-body text-center">
                         <img src="{{asset('storage/' . auth()->guard('petugas')->user()->gambar)}}" alt="orang"
-                            class="img-fluid rounded-circle mb-2" width="128" height="128" />
-                        <h5 class="card-title mb-0">{{auth()->guard('petugas')->user()->nama_petugas}}</h5>
+                            class="img-fluid rounded-circle mb-4" width="128" height="128" />
+                        <h5 class="card-title mb-2">{{auth()->guard('petugas')->user()->nama_petugas}}</h5>
                         @if (auth()->guard('petugas')->user()->id_level == '1')
-                            <div class="text-muted mb-2">Admin</div>
+                            <div class="text-primary mb-2 mt-2"><strong>Admin</strong></div>
                         @else
-                            <div class="text-muted mb-2">Petugas</div>
+                            <div class="text-success mb-2 mt-2"><strong>Petugas</strong></div>
                         @endif
                     </div>
                 @endif

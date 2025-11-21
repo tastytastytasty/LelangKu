@@ -54,10 +54,10 @@
                             </a>
                         </li>
                         <li class="sidebar-header">
-                            Transaksi
+                            Tentang
                         </li>
-                        <li class="sidebar-item ">
-                            <a class="sidebar-link" href="#">
+                        <li class="sidebar-item {{ request()->is('tentang') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{route('tentang')}}">
                                 <i class="align-middle" data-feather="info"></i> <span class="align-middle">Tentang</span>
                             </a>
                         </li>
@@ -97,6 +97,14 @@
                                     class="align-middle">Laporan</span>
                             </a>
                         </li>
+                        <li class="sidebar-header">
+                            Tentang
+                        </li>
+                        <li class="sidebar-item {{ request()->is('tentang') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{route('tentang')}}">
+                                <i class="align-middle" data-feather="info"></i> <span class="align-middle">Tentang</span>
+                            </a>
+                        </li>
                     @elseif (auth()->guard('petugas')->check() && auth()->guard('petugas')->user()->id_level == 2)
                         <li class="sidebar-item {{ request()->is('petugas/dashboard') ? 'active' : '' }}">
                             <a class="sidebar-link" href="/petugas/dashboard">
@@ -134,6 +142,14 @@
                             <a class="sidebar-link" href="{{ route('laporan') }}">
                                 <i class="align-middle" data-feather="clipboard"></i> <span
                                     class="align-middle">Laporan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-header">
+                            Tentang
+                        </li>
+                        <li class="sidebar-item {{ request()->is('tentang') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{route('tentang')}}">
+                                <i class="align-middle" data-feather="info"></i> <span class="align-middle">Tentang</span>
                             </a>
                         </li>
                     @endif

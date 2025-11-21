@@ -84,4 +84,8 @@ Route::middleware('auth.only')->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
     Route::get('/laporan/cari', [LaporanController::class, 'cari'])->name('laporan.cari');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
+
+    Route::get('/tentang', function () {
+        return view('dashboard.tentang');
+    })->name('tentang');
 });

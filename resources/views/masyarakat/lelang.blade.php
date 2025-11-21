@@ -63,12 +63,16 @@
                                     </td>
                                     <td class="d-none d-md-table-cell">
                                         @if ($lelang->status == 'dibuka')
-                                            <span class="text-success">{{$lelang->status}}</span>
+                                            @if ($lelang->id_user != null)
+                                                <span class="text-warning">Proses Lelang</span>
+                                            @else
+                                                <span class="text-success">Dibuka</span>
+                                            @endif
                                         @else
                                             @if ($lelang->id_user != null)
-                                                <span class="text-primary">selesai</span>
+                                                <span class="text-primary">Selesai</span>
                                             @else
-                                                <span class="text-danger">{{$lelang->status}}</span>
+                                                <span class="text-danger">Ditutup</span>
                                             @endif
                                         @endif
                                     </td>
