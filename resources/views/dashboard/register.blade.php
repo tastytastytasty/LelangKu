@@ -88,7 +88,6 @@
 												placeholder="Masukkan NIK Anda (16 Digit)" minlength="16" maxlength="16"
 												inputmode="numeric" pattern="\d{16}"
 												oninput="this.value = this.value.replace(/\D/g,'')" required />
-
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>

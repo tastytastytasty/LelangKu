@@ -13,10 +13,11 @@ class LelangController extends Controller
     public function index()
     {
         if (auth()->guard('masyarakat')->check()) {
-            $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])->get()->where('status', 'dibuka');
+            $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])->where('status', 'dibuka')
+            ->orderBy('created_at', 'DESC')->get();
         } else {
             $id = auth()->guard('petugas')->user()->id_petugas;
-            $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])->get()->where('id_petugas', $id);
+            $lelangs = Lelang::with(['barang', 'masyarakat', 'petugas'])->where('id_petugas', $id)->get();
         }
         return view('masyarakat.lelang', compact('lelangs'));
     }

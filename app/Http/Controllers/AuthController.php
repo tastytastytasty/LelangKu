@@ -73,6 +73,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'telp' => $request->telp,
             'alamat' => $request->alamat,
+            'gambar' => 'img/no.jpg',
         ]);
         if (!$masyarakat) {
             return redirect()->back()->with('error', 'Akun gagal dibuat! Coba lagi nanti.');

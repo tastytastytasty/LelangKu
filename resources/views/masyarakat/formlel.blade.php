@@ -40,7 +40,7 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Tanggal</label>
                                         <input type="date" class="form-control" name="tgl_lelang"
-                                            value="{{ isset($lelang) ? $lelang->tgl_lelang : '' }}">
+                                            value="{{ isset($lelang) ? $lelang->tgl_lelang : '' }}" min="{{ $lelang->tgl_lelang }}">
                                     </div>
                                 </div>
                             @else
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Tanggal</label>
-                                        <input type="date" class="form-control" name="tgl_lelang">
+                                        <input type="date" class="form-control" name="tgl_lelang" min="{{ date('Y-m-d') }}">
                                     </div>
                                 </div>
                             @endif

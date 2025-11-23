@@ -89,7 +89,7 @@
             <h1 class="mb-3 text-primary"><strong>Lelang</strong> yang akan datang</h1>
         </div>
         <div class="row mt-2">
-            @if (!empty($lelangis))
+            @if ($lelangis->count() > 0)
                 @foreach ($lelangis as $lelangi)
                     <div class="col-12 col-md-6 col-xxl-3 d-flex mb-3">
                         <div class="card w-100">

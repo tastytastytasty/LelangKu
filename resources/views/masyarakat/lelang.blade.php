@@ -79,14 +79,16 @@
                                     <td class="d-none d-md-table-cell">
                                         <a href="{{ route('lelang.edit', $lelang->id_lelang) }}" class="btn btn-sm btn-warning"><i
                                                 class="align-middle mx-2" data-feather="edit-3"></i>Edit</a>
-                                        <form action="{{ route('lelang.destroy', $lelang->id_lelang) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Apakah anda yakin?')"><i class="align-middle  mx-2"
-                                                    data-feather="trash"></i>Hapus</button>
-                                        </form>
+                                        @if ($lelang->id_user == null || $lelang->id_user != null && $lelang->status == 'dibuka')
+                                            <form action="{{ route('lelang.destroy', $lelang->id_lelang) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Apakah anda yakin?')"><i class="align-middle  mx-2"
+                                                        data-feather="trash"></i>Hapus</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -147,11 +149,12 @@
                                                     <tr>
                                                         @if ($lelang->id_user != null)
                                                             @if ($lelang->id_user == auth()->guard('masyarakat')->user()->id_user)
-                                                                <td class="text-success"><strong>{{$lelang->masyarakat->nama_lengkap}}</strong></td>
+                                                                <td class="text-success">
+                                                                    <strong>{{$lelang->masyarakat->nama_lengkap}}</strong></td>
                                                                 <td></td>
                                                             @else
-                                                            <td><strong>{{$lelang->masyarakat->nama_lengkap}}</strong></td>
-                                                            <td></td>
+                                                                <td><strong>{{$lelang->masyarakat->nama_lengkap}}</strong></td>
+                                                                <td></td>
                                                             @endif
                                                         @else
                                                             <td><strong>Belum ada yang bet</strong></td>
