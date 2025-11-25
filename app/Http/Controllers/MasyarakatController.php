@@ -68,7 +68,7 @@ class MasyarakatController extends Controller
         }
         $masyarakat = Masyarakat::findOrFail($id);
         if ($request->hasFile('gambar')) {
-            if ($masyarakat->gambar) {
+            if ($masyarakat->gambar && $masyarakat->gambar != 'img/no.jpg') {
                 Storage::disk('public')->delete($masyarakat->gambar);
             }
             $gambarBaru = $request->file('gambar')->store('img', 'public');

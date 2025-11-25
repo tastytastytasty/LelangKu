@@ -40,25 +40,25 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Tanggal</label>
                                         <input type="date" class="form-control" name="tgl_lelang"
-                                            value="{{ isset($lelang) ? $lelang->tgl_lelang : '' }}" min="{{ $lelang->tgl_lelang }}">
+                                            value="{{ isset($lelang) ? $lelang->tgl_lelang : '' }}" min="{{isset($lelang) ? $lelang->tgl_lelang : date('Y-m-d')}}">
                                     </div>
                                 </div>
                             @else
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Barang</label>
-                                        <select class="form-control" name="id_barang">
+                                        <select class="form-control select2" name="id_barang">
                                             <option value="">-- Pilih Barang --</option>
                                             @foreach($barangs as $barang)
                                                 <option value="{{ $barang->id_barang }}">
-                                                    {{ $barang->nama_barang }}
+                                                    {{ $barang->nama_barang }} -- Rp.{{ number_format($barang->harga_awal,0,',','.') }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Tanggal</label>
-                                        <input type="date" class="form-control" name="tgl_lelang" min="{{ date('Y-m-d') }}">
+                                        <input type="date" class="form-control" name="tgl_lelang" value="{{date('Y-m-d')}}" min="{{ date('Y-m-d') }}">
                                     </div>
                                 </div>
                             @endif

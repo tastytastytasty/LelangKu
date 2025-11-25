@@ -2,6 +2,70 @@
 @section('content')
     <h1 class="mb-3"><strong>Selamat datang,</strong> {{ auth()->guard('masyarakat')->user()->nama_lengkap }}</h1>
     <hr class="text-primary">
+    @php
+        use App\Models\History;
+        $user = auth()->guard('masyarakat')->user();
+        $histories = History::with(['lelang', 'masyarakat', 'barang'])
+            ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user')
+            ->where('id_user', $user->id_user)
+            ->groupBy('id_lelang', 'id_barang', 'id_user')
+            ->orderBy('created_at', 'DESC')
+            ->limit(3)->get();
+        foreach ($histories as $h) {
+            $highest = History::where('id_lelang', $h->id_lelang)
+                ->orderBy('penawaran_harga', 'DESC')
+                ->first();
+            if ($h->lelang->status == 'ditutup') {
+                $h->is_menang = $highest && $highest->id_user == $h->id_user;
+                $h->is_kalah = $highest && $highest->id_user != $h->id_user;
+            }
+            $h->is_proses = $h->lelang->status == 'dibuka';
+        }
+    @endphp
+    <div class="d-flex justify-content-between mx-2">
+        <h1 class="mb-3 text-primary"><strong>History</strong> lelang terkini</h1>
+        <a href="/history" class="btn btn-none text-primary">Selengkapnya<i class="align-middle mx-2"
+                data-feather="arrow-right"></i></a>
+    </div>
+    <table class="table table-hover my-0">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th class="d-none d-xl-table-cell">Tanggal lelang</th>
+                <th class="d-none d-xl-table-cell">Nama Barang</th>
+                <th class="d-none d-xl-table-cell">Gambar</th>
+                <th class="d-none d-xl-table-cell">Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($histories as $histori)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td class="d-none d-xl-table-cell">{{ $histori->lelang->tgl_lelang }}</td>
+                    <td class="d-none d-xl-table-cell">{{ $histori->barang->nama_barang }}</td>
+                    <td class="d-none d-xl-table-cell">
+                        @if($histori->barang->gambar)
+                            <img src="{{ asset('storage/' . $histori->barang->gambar) }}" width="100" class="mx-auto">
+                        @else
+                            <span>Tidak ada gambar</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($histori->lelang->status == 'dibuka')
+                            <span class="text-warning">Proses Lelang</span>
+                        @else
+                            @if ($histori->is_menang)
+                                <span class="text-success">Menang</span>
+                            @else
+                                <span class="text-danger">Kalah</span>
+                            @endif
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <hr class="text-primary">
     <div class=" d-flex mx-2">
         <h1 class="mb-3 text-primary"><strong>Lelang</strong> yang akan datang</h1>
     </div>
@@ -49,7 +113,7 @@
         @endif
     </div>
     <hr class="text-primary">
-    <div class=" d-flex justify-content-between mx-2">
+    <div class="d-flex justify-content-between mx-2">
         <h1 class="mb-3 text-primary"><strong>Lelang</strong> terkini</h1>
         <a href="/lelang" class="btn btn-none text-primary">Selengkapnya<i class="align-middle mx-2"
                 data-feather="arrow-right"></i></a>

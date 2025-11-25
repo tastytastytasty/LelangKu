@@ -60,7 +60,7 @@ class PetugasController extends Controller
         }
         $petugas = Petugas::findOrFail($id);
         if ($request->hasFile('gambar')) {
-            if ($petugas->gambar) {
+            if ($petugas->gambar  && $petugas->gambar != 'img/no.jpg') {
                 Storage::disk('public')->delete($petugas->gambar);
             }
             $gambarBaru = $request->file('gambar')->store('img', 'public');

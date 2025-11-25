@@ -22,7 +22,7 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            if ($user->gambar) {
+            if ($user->gambar && $user->gambar != 'img/no.jpg') {
                 Storage::disk('public')->delete($user->gambar);
             }
             $gambar = $request->file('gambar')->store('img', 'public');
@@ -53,7 +53,7 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            if ($user->gambar) {
+            if ($user->gambar && $user->gambar != 'img/no.jpg') {
                 Storage::disk('public')->delete($user->gambar);
             }
             $gambar = $request->file('gambar')->store('img', 'public');

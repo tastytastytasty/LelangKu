@@ -15,8 +15,8 @@
                     @csrf
                     <div class="d-flex mx-2 gap-2">
                         @if (auth()->guard('petugas')->user()->id_level != '2')
-                            <select class="form-control" name="petugas">
-                                <option value="">Petugas</option>
+                            <select class="form-control select2" name="petugas">
+                                <option value="">Pilih Petugas</option>
                                 @foreach ($petugasList as $p)
                                     <option value="{{ $p->id_petugas }}" {{ $selectedPetugas == $p->id_petugas ? 'selected' : '' }}>
                                         {{ $p->nama_petugas }}

@@ -100,7 +100,7 @@
             {{ \Carbon\Carbon::now()->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}</p>
         <p><strong>Jumlah lelang:</strong> {{ $jumlahLelang }} lelang</p>
         @if (!empty($tgl_awal) && !empty($tgl_akhir) && !empty($selectedPetugas))
-            <p><strong>Data Antara:</strong>
+            <p><strong>Filter :</strong>
                 {{ \Carbon\Carbon::parse($tgl_awal)->translatedFormat('d F Y') }} -
                 {{ \Carbon\Carbon::parse($tgl_akhir)->translatedFormat('d F Y') }}
             </p>
@@ -112,7 +112,7 @@
             <p><strong>Petugas:</strong> {{ $pet->nama_petugas ?? 'Tidak ditemukan' }}</p>
 
         @elseif(!empty($tgl_awal) && !empty($tgl_akhir))
-            <p><strong>Data Antara:</strong>
+            <p><strong>Filter :</strong>
                 {{ \Carbon\Carbon::parse($tgl_awal)->translatedFormat('d F Y') }} -
                 {{ \Carbon\Carbon::parse($tgl_akhir)->translatedFormat('d F Y') }}
             </p>
@@ -190,6 +190,27 @@
         </div>
     </div>
 </body>
+<br>
+<div style="width: 100%; text-align: right; margin-top: 80px; font-size: 14px;">
+    <div style="display: inline-block; text-align: center; margin-right: 60px;">
+        <p style="margin: 2px 0;">
+            {{ \Carbon\Carbon::now()->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}
+        </p>
+        <br><br><br>
+        <p style="margin: 2px 0;"><b>(___________________)</b></p>
+        @if(!empty($selectedPetugas))
+            @php
+                $pet = \App\Models\Petugas::find($selectedPetugas);
+            @endphp
+            <p>{{ $pet->nama_petugas ?? 'Tidak ditemukan' }}</p>
+        @else
+            @php
+                $user = auth()->guard('petugas')->user();
+            @endphp
+            <p>{{ $user->nama_petugas ?? 'Tidak ditemukan' }}</p>
+        @endif
+    </div>
+</div>
 
 <script>
     // Timer untuk pop up muncul

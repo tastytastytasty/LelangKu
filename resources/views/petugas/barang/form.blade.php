@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Harga</label>
-                                <input type="number" min="0" class="form-control" name="harga_awal"
+                                <input type="number" min="1" class="form-control" name="harga_awal"
                                     value="{{ isset($barang) ? $barang->harga_awal : '' }}">
                             </div>
                         </div>

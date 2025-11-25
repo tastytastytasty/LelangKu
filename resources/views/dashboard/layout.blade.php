@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="{{asset('assets/img/icons/leg.png')}}" />
 
+    <link rel="stylesheet" href="{{asset('assets/css/select2.min.css')}}">
     <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
     <title>LelangKu</title>
@@ -246,6 +247,9 @@
     </div>
 
     <script src="{{asset('assets/js/app.js')}}"></script>
+    <script src="{{asset('assets/js/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/js/chartjs.js')}}"></script>
 
 </body>
 <script>
@@ -260,5 +264,9 @@
         }
     });
 </script>
-
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+    });
+</script>
 </html>

@@ -56,7 +56,7 @@ class BarangController extends Controller
     {
         $barang = Barang::findOrFail($id);
         if ($request->hasFile('gambar')) {
-            if ($barang->gambar) {
+            if ($barang->gambar && $barang->gambar != 'img/box.jpg') {
                 Storage::disk('public')->delete($barang->gambar);
             }
             $gambarBaru = $request->file('gambar')->store('img', 'public');

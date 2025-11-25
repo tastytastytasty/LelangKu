@@ -26,9 +26,12 @@
                                     value="{{ isset($petugas) ? $petugas->nama_petugas : '' }}">
                             </div>
                             <div class="col-md-6">
+                                @if(isset($petugas))
+                                    <input type="hidden" name="level" value="{{ $petugas->id_level }}">
+                                @endif
                                 <label class="form-label">Level</label>
-                                <select class="form-control" name="level">
-                                    <option value="">-- Pilih Level --</option>
+                                <select class="form-control" name="level" {{ isset($petugas) ? 'disabled' : '' }}>
+                                    <option value="" disabled>-- Pilih Level --</option>
                                     @foreach($levels as $level)
                                         <option value="{{ $level->id_level }}"
                                             {{ isset($petugas) && $petugas->id_level == $level->id_level ? 'selected' : '' }}>
