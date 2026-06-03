@@ -11,7 +11,7 @@ class BarangController extends Controller
 {
     public function index()
     {
-        $barangs = Barang::all();
+        $barangs = Barang::orderBy('id_barang')->paginate(5);
         return view('petugas.barang.barang', compact('barangs'));
     }
 
@@ -87,7 +87,7 @@ class BarangController extends Controller
     public function cari(Request $request)
     {
         $cari = $request->cari;
-        $barangs = Barang::where('nama_barang', 'like', "%" . $cari . "%")->get();
+        $barangs = Barang::where('nama_barang', 'like', "%" . $cari . "%")->orderBy('id_barang')->paginate(5);
         return view('petugas.barang.barang', compact('barangs'));
     }
 }

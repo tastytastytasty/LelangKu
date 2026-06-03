@@ -43,7 +43,8 @@
                                     @endif
                                 </td>
                                 <td class="d-none d-md-table-cell">{{$barang->tgl}}</td>
-                                <td class="d-none d-md-table-cell">Rp. {{ number_format($barang->harga_awal, 0, ',', '.') }}</td>
+                                <td class="d-none d-md-table-cell">Rp. {{ number_format($barang->harga_awal, 0, ',', '.') }}
+                                </td>
                                 <td class="d-none d-md-table-cell">{{$barang->deskripsi}}</td>
                                 <td class="d-none d-md-table-cell">
                                     <a href="{{ route('barang.edit', $barang->id_barang) }}" class="btn btn-sm btn-warning"><i
@@ -61,6 +62,28 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div style="display:flex; justify-content:center; margin-top:20px; width:100%; font-size: 16px; font-weight: 600;">
+                    @if (isset($cari))
+                        {{ $barangs->appends(['cari'=>$cari])->links('vendor.pagination.default') }}
+                    @else
+                    {{ $barangs->links('vendor.pagination.default') }}
+                    @endif
+                </div>
+
+                <style>
+                    .pagination {
+                        display: flex !important;
+                        flex-wrap: nowrap !important;
+                        gap: 6px !important;
+                        white-space: nowrap !important;
+                    }
+                    .pagination li{
+                        list-style: none;
+                    }
+                    .pagination a:link{
+                        text-decoration: none;
+                    }
+                </style>
             </div>
         </div>
     </div>

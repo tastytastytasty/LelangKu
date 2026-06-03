@@ -14,12 +14,12 @@ class LaporanController extends Controller
         $petugasList = Petugas::where('id_level', 2)->get();
         if ($user->id_level == '2') {
 
-            $laporans = Lelang::with(['history', 'masyarakat', 'barang','petugas'])
-                ->where('id_petugas',$user->id_petugas)
-                ->get();
+            $laporans = Lelang::with(['history', 'masyarakat', 'barang', 'petugas'])
+                ->where('id_petugas', $user->id_petugas)
+                ->orderBy('id_lelang')->paginate(5);
         } else {
-            $laporans = Lelang::with(['history', 'masyarakat', 'barang','petugas'])
-                ->get();
+            $laporans = Lelang::with(['history', 'masyarakat', 'barang', 'petugas'])
+                ->orderBy('id_lelang')->paginate(5);
         }
         $grandTotal = $laporans
             ->where('status', 'ditutup')
@@ -40,10 +40,13 @@ class LaporanController extends Controller
         $tgl_awal = $request->tgl_awal;
         $tgl_akhir = $request->tgl_akhir;
         $petugasList = Petugas::where('id_level', 2)->get();
-        $query = $laporans = Lelang::with(['history', 'masyarakat', 'barang','petugas']);
+
+        $query = Lelang::with(['history', 'masyarakat', 'barang', 'petugas']);
+
         if ($user->id_level == 2) {
             $query->where('id_petugas', $user->id_petugas);
         }
+
         if ($selectedPetugas && $user->id_level != 2) {
             $query->where('id_petugas', $selectedPetugas);
         }
@@ -51,11 +54,17 @@ class LaporanController extends Controller
         if ($tgl_awal && $tgl_akhir) {
             $query->whereBetween('tgl_lelang', [$tgl_awal, $tgl_akhir]);
         }
-        $laporans = $query->get();
-        $grandTotal = $laporans
+
+        // ==== Tambahkan PAGINATION di sini ====
+        $laporans = $query->paginate(5)->withQueryString();
+        // ======================================
+
+        // Grand Total tetap pakai get() atau clone supaya tidak kena paginate()
+        $grandTotal = (clone $query)
             ->where('status', 'ditutup')
             ->whereNotNull('id_user')
             ->sum('harga_akhir');
+
         return view('petugas.laporan.laporan', [
             'laporans' => $laporans,
             'petugasList' => $petugasList,
@@ -65,6 +74,7 @@ class LaporanController extends Controller
             'grandTotal' => $grandTotal
         ]);
     }
+
     public function cetak(Request $request)
     {
         $user = auth()->guard('petugas')->user();
@@ -73,7 +83,7 @@ class LaporanController extends Controller
         } else {
             $selectedPetugas = $request->petugas ?? null;
         }
-        $query = Lelang::with(['history', 'masyarakat', 'barang','petugas']);
+        $query = Lelang::with(['history', 'masyarakat', 'barang', 'petugas']);
         if (!empty($selectedPetugas)) {
             $query->where('id_petugas', $selectedPetugas);
         }

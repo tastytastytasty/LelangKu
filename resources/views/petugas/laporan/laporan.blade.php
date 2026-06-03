@@ -105,6 +105,28 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div style="display:flex; justify-content:center; margin-top:20px; width:100%; font-size: 16px; font-weight: 600;">
+                    @if (isset($cari))
+                        {{ $laporans->appends(['cari'=>$cari])->links('vendor.pagination.default') }}
+                    @else
+                    {{ $laporans->links('vendor.pagination.default') }}
+                    @endif
+                </div>
+
+                <style>
+                    .pagination {
+                        display: flex !important;
+                        flex-wrap: nowrap !important;
+                        gap: 6px !important;
+                        white-space: nowrap !important;
+                    }
+                    .pagination li{
+                        list-style: none;
+                    }
+                    .pagination a:link{
+                        text-decoration: none;
+                    }
+                </style>
             </div>
         </div>
     </div>
