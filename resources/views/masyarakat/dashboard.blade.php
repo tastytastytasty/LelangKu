@@ -6,7 +6,7 @@
         use App\Models\History;
         $user = auth()->guard('masyarakat')->user();
         $histories = History::with(['lelang', 'masyarakat', 'barang'])
-            ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user')
+            ->selectRaw('MAX(id_history) as id_history, id_lelang, id_barang, id_user, MAX(created_at) as created_at')
             ->where('id_user', $user->id_user)
             ->groupBy('id_lelang', 'id_barang', 'id_user')
             ->orderBy('created_at', 'DESC')
